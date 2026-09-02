@@ -1,9 +1,9 @@
 # LeafTween
 
-A tweening package for the Godot Engine, providing an API for tween effects
-similar to [LeanTween](https://github.com/dentedpixel/LeanTween) from Unity.
+A tweening package for the Godot Engine, built from scratch to animate values
+over time with easing, sequencing, and curved motion.
 
-> **Status:** early development.
+> **Status:** early development. See [ROADMAP.md](ROADMAP.md) for the development plan.
 
 ## Requirements
 

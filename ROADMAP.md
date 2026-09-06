@@ -20,8 +20,9 @@ fluent API.
 
 ## Value-Add Features
 
-Three features go beyond reproducing the native `Tween`'s ergonomics — they
-fill gaps found while building the Phase 0 baseline against it:
+Three features go beyond reproducing the native `Tween`'s ergonomics. Each is
+paired with a manual workaround built in the same phase as the feature
+itself, to make the gap it fills concrete rather than asserted:
 
 - **Custom easing via `Curve` resource** (Phase 2) — the native `Tween` only
   accepts the fixed `Tween.TransitionType`/`EaseType` enums. A `Curve` is
@@ -49,10 +50,8 @@ fill gaps found while building the Phase 0 baseline against it:
 ## Phased Plan
 
 ### Phase 0 — Baseline
-- Explore Godot's built-in `Tween` node to get a feel for good tweening-API ergonomics.
-- Reproduce a staggered cascade and a custom-curve ease by hand with the native `Tween` (a loop with incremental delay; `tween_method()` + manual `Curve.sample()`) — the awkwardness here is what Phase 2 and Phase 6 aim to remove.
 - Sketch the public API you want (`LeafTween.move(...)`, chained setters) before writing engine internals.
-- **Deliverable:** `demo/baseline/` scene with a few tweens built with Godot's built-in `Tween`, including the manual stagger and manual curve-ease workarounds, plus written notes on the desired API shape.
+- **Deliverable:** written notes on the desired API shape.
 
 ### Phase 1 — Minimal engine
 - `addons/leaf_tween/leaf_tween.gd` autoload with `_process(delta)`.
@@ -64,10 +63,11 @@ fill gaps found while building the Phase 0 baseline against it:
 
 ### Phase 2 — Easing + fluent API
 - Implement at least 6 easing functions from the math formulas (linear, quad in/out/inout, cubic, bounce) — no copying from Godot's built-in `Tween.TransitionType`.
-- Accept a `Curve` resource as a custom easing source (`.set_ease_curve(curve)`), sampled per-frame — the native `Tween` has no first-class equivalent, only the `tween_method()` + `Curve.sample()` workaround from Phase 0.
+- Reproduce a custom-curve ease by hand with the native `Tween` (`tween_method()` + manual `Curve.sample()`), to see firsthand the workaround this phase replaces.
+- Accept a `Curve` resource as a custom easing source (`.set_ease_curve(curve)`), sampled per-frame — the native `Tween` has no first-class equivalent, only the manual workaround above.
 - Config methods return `self` for chaining (`.set_ease()`, `.set_delay()`).
 - Generic value support (`float`, `Vector2`/`Vector3`, `Color`) via an interpolation `Callable`.
-- **Deliverable:** `demo/easing/` comparing a custom `ease_out_bounce` against Godot's built-in equivalent, side by side, plus a `Curve`-driven ease against the Phase 0 manual workaround.
+- **Deliverable:** `demo/easing/` comparing a custom `ease_out_bounce` against Godot's built-in equivalent, side by side, plus a `Curve`-driven ease against the manual `tween_method()`/`Curve.sample()` workaround built above.
 
 ### Phase 3 — Pooling & generation counters
 - Replace `Array[TweenData]` with a fixed-size, pre-allocated array.
@@ -90,9 +90,10 @@ fill gaps found while building the Phase 0 baseline against it:
 ### Phase 6 — Polish
 - Static helper methods for common node types (`Node2D`, `Control`, `CanvasItem` modulate).
 - `Control`/UI tweening support.
+- Reproduce a staggered cascade by hand with the native `Tween` (a loop with incremental delay), to see firsthand the workaround `stagger()` replaces.
 - `LeafTween.stagger(nodes, delay_between, ...)` to animate a list of nodes with an incremental delay in one call, handling cancel-mid-stagger cleanly.
 - Lightweight test coverage in `tests/` (GUT, or a minimal custom `expect()` runner) for cancel/pause/pool-reuse edge cases, including stagger cancellation.
-- **Deliverable:** the addon usable standalone (drop `addons/leaf_tween/` into another project), with `demo/stagger/` comparing `stagger()` against the Phase 0 manual loop.
+- **Deliverable:** the addon usable standalone (drop `addons/leaf_tween/` into another project), with `demo/stagger/` comparing `stagger()` against the manual loop built above.
 
 ## Self-Check Questions
 
@@ -110,7 +111,7 @@ fill gaps found while building the Phase 0 baseline against it:
 - Can explain the pool + generation-counter + central-update-loop architecture from memory, no notes.
 - Engine implemented end-to-end: pooling, easing, curves, sequencing.
 - 1000+ simultaneous tweens run with near-zero steady-state allocation (verified in Godot's profiler).
-- Each value-add feature (`Curve` easing, `stagger()`, `move_along()`) has a demo scene showing it next to the Phase 0 manual workaround it replaces.
+- Each value-add feature (`Curve` easing, `stagger()`, `move_along()`) has a demo scene showing it next to the manual workaround it replaces, built in the same phase as the feature for direct comparison.
 
 ## References
 

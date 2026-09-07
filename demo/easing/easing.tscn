@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://hgka6moguk14"]
+
+[ext_resource type="Script" uid="uid://dscho3xijbtlr" path="res://demo/easing/easing.gd" id="1_easing"]
+
+[node name="Easing" type="Control" unique_id=161049060 node_paths=PackedStringArray("leaf_tween_box", "native_tween_box", "leaf_tween_curve_box", "manual_curve_box")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_easing")
+leaf_tween_box = NodePath("LeafTweenBox")
+native_tween_box = NodePath("NativeTweenBox")
+leaf_tween_curve_box = NodePath("LeafTweenCurveBox")
+manual_curve_box = NodePath("ManualCurveBox")
+color_finish = Color(0.73333335, 0.24313726, 0.011764706, 1)
+
+[node name="Background" type="ColorRect" parent="." unique_id=735361529]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.07058824, 0.09803922, 1)
+
+[node name="LeafTweenLabel" type="Label" parent="." unique_id=1172061069]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 260.0
+offset_right = 600.0
+offset_bottom = 296.0
+text = "LeafTween — ease_out_bounce"
+
+[node name="LeafTweenBox" type="ColorRect" parent="." unique_id=538059971]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 300.0
+offset_right = 180.0
+offset_bottom = 380.0
+color = Color(0.5803922, 0.8235294, 0.7411765, 1)
+
+[node name="NativeTweenLabel" type="Label" parent="." unique_id=1246612826]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 460.0
+offset_right = 600.0
+offset_bottom = 496.0
+text = "Native Tween — EASE_OUT + TRANS_BOUNCE"
+
+[node name="NativeTweenBox" type="ColorRect" parent="." unique_id=250113432]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 500.0
+offset_right = 180.0
+offset_bottom = 580.0
+color = Color(0.9333333, 0.60784316, 0, 1)
+
+[node name="LeafTweenCurveLabel" type="Label" parent="."]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 660.0
+offset_right = 600.0
+offset_bottom = 696.0
+text = "LeafTween — set_ease_curve(Curve)"
+
+[node name="LeafTweenCurveBox" type="ColorRect" parent="."]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 700.0
+offset_right = 180.0
+offset_bottom = 780.0
+color = Color(0.039215688, 0.5764706, 0.5882353, 1)
+
+[node name="ManualCurveLabel" type="Label" parent="."]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 860.0
+offset_right = 600.0
+offset_bottom = 896.0
+text = "Manual — tween_method() + Curve.sample()"
+
+[node name="ManualCurveBox" type="ColorRect" parent="."]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 900.0
+offset_right = 180.0
+offset_bottom = 980.0
+color = Color(0.9137255, 0.84705883, 0.6509804, 1)

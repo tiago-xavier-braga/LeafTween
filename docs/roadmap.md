@@ -43,7 +43,7 @@ itself, to make the gap it fills concrete rather than asserted:
 - [ ] `Callable` / `Signal` as the callback mechanism (GDScript's equivalent of `Action`/delegates)
 - [ ] `class_name` + `RefCounted` vs plain `Dictionary` for pooled data
 - [ ] Pre-allocated typed `Array`s and why `Variant` boxing still costs in GDScript
-- [ ] Easing math — Robert Penner's equations
+- [ ] Easing math — easing functions/equations
 - [ ] Bezier curves and Catmull-Rom splines
 - [ ] Godot's `Curve` resource API (`Curve.sample()`) for custom easing curves
 
@@ -62,12 +62,12 @@ itself, to make the gap it fills concrete rather than asserted:
 - ~~**Deliverable:** `demo/basic/` scene animating a node's position with a completion callback.~~
 
 ### Phase 2 — Easing + fluent API
-- Implement at least 6 easing functions from the math formulas (linear, quad in/out/inout, cubic, bounce) — no copying from Godot's built-in `Tween.TransitionType`.
-- Reproduce a custom-curve ease by hand with the native `Tween` (`tween_method()` + manual `Curve.sample()`), to see firsthand the workaround this phase replaces.
-- Accept a `Curve` resource as a custom easing source (`.set_ease_curve(curve)`), sampled per-frame — the native `Tween` has no first-class equivalent, only the manual workaround above.
-- Config methods return `self` for chaining (`.set_ease()`, `.set_delay()`).
-- Generic value support (`float`, `Vector2`/`Vector3`, `Color`) via an interpolation `Callable`.
-- **Deliverable:** `demo/easing/` comparing a custom `ease_out_bounce` against Godot's built-in equivalent, side by side, plus a `Curve`-driven ease against the manual `tween_method()`/`Curve.sample()` workaround built above.
+- ~~Implement at least 6 easing functions from the math formulas (linear, quad in/out/inout, cubic, bounce) — no copying from Godot's built-in `Tween.TransitionType`.~~
+- ~~Reproduce a custom-curve ease by hand with the native `Tween` (`tween_method()` + manual `Curve.sample()`), to see firsthand the workaround this phase replaces.~~
+- ~~Accept a `Curve` resource as a custom easing source (`.set_ease_curve(curve)`), sampled per-frame — the native `Tween` has no first-class equivalent, only the manual workaround above.~~
+- ~~Config methods return `self` for chaining (`.set_ease()`, `.set_delay()`).~~
+- ~~Generic value support (`float`, `Vector2`/`Vector3`, `Color`) via an interpolation `Callable`.~~
+- ~~**Deliverable:** `demo/easing/` comparing a custom `ease_out_bounce` against Godot's built-in equivalent, side by side, plus a `Curve`-driven ease against the manual `tween_method()`/`Curve.sample()` workaround built above.~~
 
 ### Phase 3 — Pooling & generation counters
 - Replace `Array[TweenData]` with a fixed-size, pre-allocated array.
@@ -115,6 +115,6 @@ itself, to make the gap it fills concrete rather than asserted:
 
 ## References
 
-- [Robert Penner's easing equations](http://robertpenner.com/easing/)
+- [Easing functions/equations](https://easings.net/)
 - *Game Programming Patterns* (Robert Nystrom) — Object Pool, Update Method, Component chapters
 - Catmull-Rom spline / Bezier curve — any introductory computer-graphics reference on curve interpolation

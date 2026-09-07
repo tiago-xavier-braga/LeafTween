@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b45pch0rxg3ut"]
 
-[node name="Control" type="Control" unique_id=1643899388]
+[node name="Basic" type="Control" unique_id=1643899388]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,10 +24,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 60.0
-offset_bottom = 60.0
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.5803922, 0.8235294, 0.7411765, 1)

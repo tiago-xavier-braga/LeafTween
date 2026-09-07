@@ -17,7 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0.07058824, 0.09803922, 1)
 
-[node name="Move Image" type="ColorRect" parent="." unique_id=1776045611]
+[node name="MoveImage" type="ColorRect" parent="." unique_id=1776045611]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

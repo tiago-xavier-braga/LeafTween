@@ -6,4 +6,3 @@ This is a package for the Godot Engine, built from scratch to provide an API for
 @.claude/rules/folder-structure.md
 @.claude/rules/file-naming.md
 @.claude/rules/code-style.md
-

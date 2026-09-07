@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://b45pch0rxg3ut"]
 
-[node name="Basic" type="Control" unique_id=1643899388]
+[ext_resource type="Script" uid="uid://7jm7kovamvmr" path="res://demo/basic/basic.gd" id="1_vayw0"]
+
+[node name="Basic" type="Control" unique_id=1643899388 node_paths=PackedStringArray("move_image")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_vayw0")
+move_image = NodePath("MoveImage")
+final_position = 400.0
+color_finish = Color(0.73333335, 0.24313726, 0.011764706, 1)
 
 [node name="Background" type="ColorRect" parent="." unique_id=2033313634]
 layout_mode = 1

@@ -23,10 +23,10 @@ LeafTween.to(from: Variant, to: Variant, duration: float, on_update: Callable) -
 
 ```gdscript
 LeafTween.to(position, target_position, 1.0, on_update) \
-    .set_ease(LeafTween.EASE_OUT_QUAD) \
-    .set_ease_curve(my_curve) \
-    .set_delay(0.5) \
-    .set_on_complete(on_done)
+	.set_ease(LeafTween.EASE_OUT_QUAD) \
+	.set_ease_curve(my_curve) \
+	.set_delay(0.5) \
+	.set_on_complete(on_done)
 ```
 
 - `set_ease_curve(Curve)` accepts a `Curve` resource as a custom easing

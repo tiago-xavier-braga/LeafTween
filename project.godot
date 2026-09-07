@@ -15,6 +15,10 @@ run/main_scene="uid://b45pch0rxg3ut"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+LeafTween="*uid://qbx4dagkdwpi"
+
 [display]
 
 window/size/viewport_width=1920

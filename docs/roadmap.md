@@ -50,16 +50,16 @@ itself, to make the gap it fills concrete rather than asserted:
 ## Phased Plan
 
 ### Phase 0 — Baseline
-- Sketch the public API you want (`LeafTween.move(...)`, chained setters) before writing engine internals.
-- **Deliverable:** written notes on the desired API shape.
+- ~~Sketch the public API you want (`LeafTween.move(...)`, chained setters) before writing engine internals.~~
+- ~~**Deliverable:** written notes on the desired API shape.~~
 
 ### Phase 1 — Minimal engine
-- `addons/leaf_tween/leaf_tween.gd` autoload with `_process(delta)`.
-- `TweenData` inner class: `from`, `to`, `duration`, `elapsed`, `on_update: Callable`, `on_complete: Callable`.
-- Plain `Array[TweenData]` (optimize later).
-- Static `LeafTween.to(from, to, duration, on_update)`.
-- Linear interpolation only, no easing yet.
-- **Deliverable:** `demo/basic/` scene animating a node's position with a completion callback.
+- ~~`addons/leaf_tween/leaf_tween.gd` autoload with `_process(delta)`.~~
+- ~~`TweenData` inner class: `from`, `to`, `duration`, `elapsed`, `on_update: Callable`, `on_complete: Callable`.~~
+- ~~Plain `Array[TweenData]` (optimize later).~~
+- ~~Static `LeafTween.to(from, to, duration, on_update)`.~~
+- ~~Linear interpolation only, no easing yet.~~
+- ~~**Deliverable:** `demo/basic/` scene animating a node's position with a completion callback.~~
 
 ### Phase 2 — Easing + fluent API
 - Implement at least 6 easing functions from the math formulas (linear, quad in/out/inout, cubic, bounce) — no copying from Godot's built-in `Tween.TransitionType`.

@@ -3,7 +3,7 @@
 A tweening package for the Godot Engine, built from scratch to animate values
 over time with easing, sequencing, and curved motion.
 
-> **Status:** early development. See [ROADMAP.md](ROADMAP.md) for the development plan.
+> **Status:** early development. See [ROADMAP.md](docs/roadmap.md) for the development plan.
 
 ## Why LeafTween
 
@@ -19,8 +19,9 @@ things the native `Tween` doesn't have:
   unified with easing, callbacks, and sequencing, instead of Godot's
   disconnected `Curve2D`/`PathFollow2D`. _(planned — Phase 4)_
 
-See [ROADMAP.md](ROADMAP.md) for the full plan, including the object-pooling
-and generation-counter architecture behind the engine.
+See [ROADMAP.md](docs/roadmap.md) for the full plan, including the object-pooling
+and generation-counter architecture behind the engine, and
+[API Design](docs/api_design.md) for the sketched public API shape.
 
 ## Requirements
 

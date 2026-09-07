@@ -57,7 +57,7 @@ offset_right = 180.0
 offset_bottom = 580.0
 color = Color(0.9333333, 0.60784316, 0, 1)
 
-[node name="LeafTweenCurveLabel" type="Label" parent="."]
+[node name="LeafTweenCurveLabel" type="Label" parent="." unique_id=1818702173]
 layout_mode = 1
 offset_left = 100.0
 offset_top = 660.0
@@ -65,7 +65,7 @@ offset_right = 600.0
 offset_bottom = 696.0
 text = "LeafTween — set_ease_curve(Curve)"
 
-[node name="LeafTweenCurveBox" type="ColorRect" parent="."]
+[node name="LeafTweenCurveBox" type="ColorRect" parent="." unique_id=160104770]
 layout_mode = 1
 offset_left = 100.0
 offset_top = 700.0
@@ -73,7 +73,7 @@ offset_right = 180.0
 offset_bottom = 780.0
 color = Color(0.039215688, 0.5764706, 0.5882353, 1)
 
-[node name="ManualCurveLabel" type="Label" parent="."]
+[node name="ManualCurveLabel" type="Label" parent="." unique_id=1637945384]
 layout_mode = 1
 offset_left = 100.0
 offset_top = 860.0
@@ -81,7 +81,7 @@ offset_right = 600.0
 offset_bottom = 896.0
 text = "Manual — tween_method() + Curve.sample()"
 
-[node name="ManualCurveBox" type="ColorRect" parent="."]
+[node name="ManualCurveBox" type="ColorRect" parent="." unique_id=1944534760]
 layout_mode = 1
 offset_left = 100.0
 offset_top = 900.0

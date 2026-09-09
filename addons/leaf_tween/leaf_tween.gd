@@ -1,8 +1,11 @@
 extends Node
 
+const MAX_TWEENS: int = 1024
+
 var _tweens: Array[TweenData] = []
 
 class TweenData extends RefCounted:
+    var active: bool = false
     var from: Variant
     var to: Variant
     var duration: float
@@ -33,9 +36,16 @@ class TweenData extends RefCounted:
         self.on_complete = callback
         return self
 
+func _ready() -> void:
+    for i in range(MAX_TWEENS):
+        _tweens.append(TweenData.new())
+
 func _process(delta: float) -> void:
-    for i in range(_tweens.size() - 1, -1, -1):
-        var tween_data: TweenData = _tweens[i]
+    for tween_data in _tweens:
+
+        if not tween_data.active:
+            continue
+
         tween_data.elapsed += delta
 
         if tween_data.elapsed < tween_data.delay:
@@ -55,13 +65,31 @@ func _process(delta: float) -> void:
             if tween_data.on_complete.is_valid():
                 tween_data.on_complete.call()
 
-            _tweens.remove_at(i)
+            _release_tween(tween_data)
 
 func to(from: Variant, to: Variant, duration: float, on_update: Callable) -> TweenData:
-    var tween_data: TweenData = TweenData.new()
+    var tween_data: TweenData = _acquire_tween_data()
+
     tween_data.from = from
     tween_data.to = to
     tween_data.duration = duration
     tween_data.on_update = on_update
-    _tweens.append(tween_data)
     return tween_data
+
+func _acquire_tween_data() -> TweenData:
+    for tween_data in _tweens:
+        if not tween_data.active:
+            tween_data.active = true
+            return tween_data
+    push_error("No available tween data slots. Increase MAX_TWEENS.")
+    return null
+
+func _release_tween(tween: TweenData) -> void:
+    tween.active = false
+    tween.elapsed = 0.0
+    tween.delay = 0.0
+    tween.ease_type = LeafTweenEasing.EaseType.LINEAR
+    tween.ease_curve = null
+    tween.on_update = Callable()
+    tween.on_complete = Callable()
+

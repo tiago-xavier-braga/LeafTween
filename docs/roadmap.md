@@ -70,7 +70,7 @@ itself, to make the gap it fills concrete rather than asserted:
 - ~~**Deliverable:** `demo/easing/` comparing a custom `ease_out_bounce` against Godot's built-in equivalent, side by side, plus a `Curve`-driven ease against the manual `tween_method()`/`Curve.sample()` workaround built above.~~
 
 ### Phase 3 — Pooling & generation counters
-- Replace `Array[TweenData]` with a fixed-size, pre-allocated array.
+- ~~Replace `Array[TweenData]` with a fixed-size, pre-allocated array.~~
 - Implement the handle (`index` + `generation`) pattern; `cancel`/`pause` validate the generation before acting on a slot.
 - Track the highest used index so the update loop doesn't scan unused slots.
 - Profile allocations before/after with Godot's Debugger → Monitors, animating 500+ nodes at once.

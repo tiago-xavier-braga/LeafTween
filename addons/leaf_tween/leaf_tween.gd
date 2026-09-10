@@ -4,6 +4,8 @@ const MAX_TWEENS: int = 1024
 
 var _tweens: Array[TweenData] = []
 
+var _highest_active_index: int = -1
+
 class TweenData extends RefCounted:
     var index: int
     var generation: int = 0
@@ -57,7 +59,8 @@ func _ready() -> void:
         _tweens.append(tween_data)
 
 func _process(delta: float) -> void:
-    for tween_data in _tweens:
+    for i in range(_highest_active_index + 1): 
+        var tween_data: TweenData = _tweens[i]
 
         if not tween_data.active:
             continue
@@ -113,15 +116,18 @@ func resume(handle: TweenHandle) -> void:
 func _is_handle_valid(handle: TweenHandle) -> bool:
     if handle.index < 0 or handle.index >= MAX_TWEENS:
         return false
-
     var tween_data: TweenData = _tweens[handle.index]
     return tween_data.generation == handle.generation and tween_data.active
 
 func _acquire_tween_data() -> TweenData:
-    for tween_data in _tweens:
+    for i in range(_tweens.size()):
+        var tween_data: TweenData = _tweens[i]
         if not tween_data.active:
             tween_data.active = true
+            if tween_data.index > _highest_active_index:
+                _highest_active_index = tween_data.index
             return tween_data
+
     push_error("No available tween data slots. Increase MAX_TWEENS.")
     return null
 
@@ -138,4 +144,11 @@ func _release_tween(tween: TweenData) -> void:
     tween.ease_curve = null
     tween.on_update = Callable()
     tween.on_complete = Callable()
+
+    if tween.index == _highest_active_index:
+        for i in range(_highest_active_index - 1, -1, -1):
+            if _tweens[i].active:
+                _highest_active_index = i
+                return
+        _highest_active_index = -1
 

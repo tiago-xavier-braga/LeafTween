@@ -5,7 +5,10 @@ const MAX_TWEENS: int = 1024
 var _tweens: Array[TweenData] = []
 
 class TweenData extends RefCounted:
+    var index: int
+    var generation: int = 0
     var active: bool = false
+    var paused: bool = false
     var from: Variant
     var to: Variant
     var duration: float
@@ -23,7 +26,7 @@ class TweenData extends RefCounted:
     func set_ease_curve(curve: Curve) -> TweenData:
         self.ease_curve = curve
         return self
-    
+
     func set_delay(delay: float) -> TweenData:
         self.delay = delay
         return self
@@ -36,14 +39,30 @@ class TweenData extends RefCounted:
         self.on_complete = callback
         return self
 
+    func get_handle() -> TweenHandle:
+        var handle: TweenHandle = TweenHandle.new()
+        handle.index = self.index
+        handle.generation = self.generation
+        return handle
+
+class TweenHandle extends RefCounted:
+    var index: int
+    var generation: int
+
+
 func _ready() -> void:
     for i in range(MAX_TWEENS):
-        _tweens.append(TweenData.new())
+        var tween_data: TweenData = TweenData.new()
+        tween_data.index = i
+        _tweens.append(tween_data)
 
 func _process(delta: float) -> void:
     for tween_data in _tweens:
 
         if not tween_data.active:
+            continue
+        
+        if tween_data.paused:
             continue
 
         tween_data.elapsed += delta
@@ -76,6 +95,28 @@ func to(from: Variant, to: Variant, duration: float, on_update: Callable) -> Twe
     tween_data.on_update = on_update
     return tween_data
 
+func cancel(handle: TweenHandle) -> void:
+    if _is_handle_valid(handle):
+        var tween_data: TweenData = _tweens[handle.index]
+        _release_tween(tween_data)
+
+func pause(handle: TweenHandle) -> void:
+    if _is_handle_valid(handle):
+        var tween_data: TweenData = _tweens[handle.index]
+        tween_data.paused = true
+
+func resume(handle: TweenHandle) -> void:
+    if _is_handle_valid(handle):
+        var tween_data: TweenData = _tweens[handle.index]
+        tween_data.paused = false
+
+func _is_handle_valid(handle: TweenHandle) -> bool:
+    if handle.index < 0 or handle.index >= MAX_TWEENS:
+        return false
+
+    var tween_data: TweenData = _tweens[handle.index]
+    return tween_data.generation == handle.generation and tween_data.active
+
 func _acquire_tween_data() -> TweenData:
     for tween_data in _tweens:
         if not tween_data.active:
@@ -85,7 +126,12 @@ func _acquire_tween_data() -> TweenData:
     return null
 
 func _release_tween(tween: TweenData) -> void:
+    tween.generation += 1
+
     tween.active = false
+    tween.from = null
+    tween.to = null
+    tween.duration = 0.0
     tween.elapsed = 0.0
     tween.delay = 0.0
     tween.ease_type = LeafTweenEasing.EaseType.LINEAR

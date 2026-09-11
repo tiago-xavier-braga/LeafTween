@@ -73,8 +73,8 @@ itself, to make the gap it fills concrete rather than asserted:
 - ~~Replace `Array[TweenData]` with a fixed-size, pre-allocated array.~~
 - ~~Implement the handle (`index` + `generation`) pattern; `cancel`/`pause` validate the generation before acting on a slot.~~
 - ~~Track the highest used index so the update loop doesn't scan unused slots.~~
-- Profile allocations before/after with Godot's Debugger → Monitors, animating 500+ nodes at once.
-- **Deliverable:** a note/screenshot in `tests/` showing steady-state allocations near zero.
+- ~~Profile allocations before/after with Godot's Debugger → Monitors, animating 500+ nodes at once.~~
+- ~~**Deliverable:** a note/screenshot in `tests/` showing steady-state allocations near zero.~~
 
 ### Phase 4 — Motion curves
 - `BezierPath` (cubic, 4 control points) with `get_point(t)`.

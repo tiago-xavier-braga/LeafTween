@@ -6,7 +6,7 @@ extends Control
 @export var color_finish: Color = Color.WHITE
 
 func _ready() -> void:
-    var tween: LeafTween.TweenData = LeafTween.to(
+    var tween: TweenData = LeafTween.to(
         move_image.position.x,
         final_position, duration,
         func(value: float) -> void:

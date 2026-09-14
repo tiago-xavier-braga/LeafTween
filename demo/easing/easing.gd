@@ -11,7 +11,7 @@ extends Control
 @export var color_finish: Color = Color.WHITE
 
 func _ready() -> void:
-	var _handle: LeafTween.TweenData = LeafTween.to(
+	var _handle: TweenData = LeafTween.to(
 		leaf_tween_box.position.x,
 		final_position,
 		duration,
@@ -32,7 +32,7 @@ func _ready() -> void:
 	custom_curve.add_point(Vector2(0.7, 1.15))
 	custom_curve.add_point(Vector2(1.0, 1.0))
 
-	var _curve_handle: LeafTween.TweenData = LeafTween.to(
+	var _curve_handle: TweenData = LeafTween.to(
 		leaf_tween_curve_box.position.x,
 		final_position,
 		duration,

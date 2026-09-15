@@ -1,5 +1,4 @@
-class_name LeafTweenEasing
-extends RefCounted
+class_name LeafTweenEasing extends RefCounted
 
 enum EaseType {
 	LINEAR,

@@ -1,5 +1,4 @@
-class_name TweenData
-extends RefCounted
+class_name TweenData extends RefCounted
 
 enum TweenAction {
     LERP,

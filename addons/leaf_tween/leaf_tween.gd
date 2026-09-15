@@ -34,7 +34,13 @@ func _process(delta: float) -> void:
 		else:
 			t = LeafTweenEasing.apply(tween_data.ease_type, t)
 
-		var value: Variant = lerp(tween_data.from, tween_data.to, t)
+		var value: Variant
+		match tween_data.action:
+			TweenData.TweenAction.LERP:
+				value = lerp(tween_data.from, tween_data.to, t)
+			TweenData.TweenAction.PATH:
+				value = tween_data.path.get_point(t)
+
 		tween_data.on_update.call(value)
 
 		if t >= 1.0:
@@ -52,8 +58,14 @@ func to(from: Variant, to: Variant, duration: float, on_update: Callable) -> Twe
 	tween_data.on_update = on_update
 	return tween_data
 
-func move_along(node: Node, path: Resource, durantion: float) -> TweenData:
-	return TweenData.new()
+func move_along(node: Node2D, path: Resource, duration: float) -> TweenData:
+	var tween_data: TweenData = _acquire_tween_data()
+
+	tween_data.path = path
+	tween_data.duration = duration
+	tween_data.action = TweenData.TweenAction.PATH
+	tween_data.on_update = Callable(node, "set_position")
+	return tween_data
 
 func cancel(handle: TweenHandle) -> void:
 	if _is_handle_valid(handle):
@@ -94,6 +106,8 @@ func _release_tween(tween: TweenData) -> void:
 	tween.active = false
 	tween.from = null
 	tween.to = null
+	tween.path = null
+	tween.action = TweenData.TweenAction.LERP
 	tween.duration = 0.0
 	tween.elapsed = 0.0
 	tween.delay = 0.0

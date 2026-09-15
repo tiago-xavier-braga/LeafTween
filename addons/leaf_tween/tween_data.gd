@@ -1,6 +1,11 @@
 class_name TweenData
 extends RefCounted
 
+enum TweenAction {
+    LERP,
+    PATH,
+}
+
 var index: int
 var generation: int = 0
 var active: bool = false
@@ -8,6 +13,7 @@ var paused: bool = false
 var from: Variant
 var to: Variant
 var path: Resource
+var action: TweenAction = TweenAction.LERP
 var duration: float
 var elapsed: float = 0.0
 var delay: float = 0.0

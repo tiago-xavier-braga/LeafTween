@@ -77,10 +77,10 @@ itself, to make the gap it fills concrete rather than asserted:
 - ~~**Deliverable:** a note/screenshot in `tests/` showing steady-state allocations near zero.~~
 
 ### Phase 4 — Motion curves
-- `BezierPath` (cubic, 4 control points) with `get_point(t)`.
-- Catmull-Rom spline over a list of control points.
-- Wire into `LeafTween.move_along(node, path, duration)`.
-- **Deliverable:** `demo/curves/` scene following a spline track.
+- ~~`BezierPath` (cubic, 4 control points) with `get_point(t)`.~~
+- ~~Catmull-Rom spline over a list of control points.~~
+- ~~Wire into `LeafTween.move_along(node, path, duration)`.~~
+- ~~**Deliverable:** `demo/curves/` scene following a spline track.~~
 
 ### Phase 5 — Sequencing
 - `LeafTweenSequence` with `.append()` (series) and `.join()` (parallel).

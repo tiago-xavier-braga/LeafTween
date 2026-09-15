@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://demo/curves/curves.gd" id="1_curves"]
+[ext_resource type="Texture2D" uid="uid://cr2ugpgi87upt" path="res://icon.svg" id="2_icon"]
+
+[node name="Curves" type="Node2D" node_paths=PackedStringArray("bezier_marker", "spline_marker", "bezier_line", "spline_line")]
+script = ExtResource("1_curves")
+bezier_marker = NodePath("BezierTrack/BezierMarker")
+spline_marker = NodePath("SplineTrack/SplineMarker")
+bezier_line = NodePath("BezierTrack/BezierLine")
+spline_line = NodePath("SplineTrack/SplineLine")
+
+[node name="BezierTrack" type="Node2D" parent="."]
+position = Vector2(200, 300)
+
+[node name="BezierLabel" type="Label" parent="BezierTrack"]
+position = Vector2(0, -60)
+text = "BezierPath — move_along()"
+
+[node name="BezierLine" type="Line2D" parent="BezierTrack"]
+width = 4.0
+default_color = Color(0.5803922, 0.8235294, 0.7411765, 1)
+
+[node name="BezierMarker" type="Sprite2D" parent="BezierTrack"]
+texture = ExtResource("2_icon")
+scale = Vector2(0.3, 0.3)
+
+[node name="SplineTrack" type="Node2D" parent="."]
+position = Vector2(200, 700)
+
+[node name="SplineLabel" type="Label" parent="SplineTrack"]
+position = Vector2(0, -60)
+text = "Catmull-Rom Spline — move_along()"
+
+[node name="SplineLine" type="Line2D" parent="SplineTrack"]
+width = 4.0
+default_color = Color(0.9333333, 0.60784316, 0, 1)
+
+[node name="SplineMarker" type="Sprite2D" parent="SplineTrack"]
+texture = ExtResource("2_icon")
+scale = Vector2(0.3, 0.3)

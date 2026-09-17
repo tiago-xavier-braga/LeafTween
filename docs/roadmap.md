@@ -88,12 +88,12 @@ itself, to make the gap it fills concrete rather than asserted:
 - ~~**Deliverable:** `demo/sequence/` — 3 tweens in series + 1 in parallel, looping twice, triggered by a button.~~
 
 ### Phase 6 — Polish
-- Static helper methods for common node types (`Node2D`, `Control`, `CanvasItem` modulate).
-- `Control`/UI tweening support.
-- Reproduce a staggered cascade by hand with the native `Tween` (a loop with incremental delay), to see firsthand the workaround `stagger()` replaces.
-- `LeafTween.stagger(nodes, delay_between, ...)` to animate a list of nodes with an incremental delay in one call, handling cancel-mid-stagger cleanly.
-- Lightweight test coverage in `tests/` (GUT, or a minimal custom `expect()` runner) for cancel/pause/pool-reuse edge cases, including stagger cancellation.
-- **Deliverable:** the addon usable standalone (drop `addons/leaf_tween/` into another project), with `demo/stagger/` comparing `stagger()` against the manual loop built above.
+- ~~Static helper methods for common node types (`Node2D`, `Control`, `CanvasItem` modulate).~~
+- ~~`Control`/UI tweening support.~~
+- ~~Reproduce a staggered cascade by hand with the native `Tween` (a loop with incremental delay), to see firsthand the workaround `stagger()` replaces.~~
+- ~~`LeafTween.stagger(nodes, delay_between, ...)` to animate a list of nodes with an incremental delay in one call, handling cancel-mid-stagger cleanly.~~
+- ~~Lightweight test coverage in `tests/` (GUT, or a minimal custom `expect()` runner) for cancel/pause/pool-reuse edge cases, including stagger cancellation.~~
+- ~~**Deliverable:** the addon usable standalone (drop `addons/leaf_tween/` into another project), with `demo/stagger/` comparing `stagger()` against the manual loop built above.~~
 
 ## Self-Check Questions
 

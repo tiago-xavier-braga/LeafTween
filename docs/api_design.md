@@ -8,6 +8,11 @@ easing).
 
 This is notes, not code — nothing here needs to compile yet.
 
+> The roadmap's phased plan (0-6) is now complete. This file is kept as the
+> original pre-implementation sketch; sections whose names or shape changed
+> during implementation carry a **Shipped as:** note pointing at what
+> actually exists.
+
 ## 1. Entry point — generic primitive (Phase 1)
 
 ```gdscript
@@ -18,6 +23,9 @@ LeafTween.to(from: Variant, to: Variant, duration: float, on_update: Callable) -
 - `Variant` because Phase 2 adds generic value support (`float`,
   `Vector2`/`Vector3`, `Color`) via an interpolation `Callable` — the
   primitive itself shouldn't care about the value type.
+
+**Shipped as:** `LeafTween.to(...) -> TweenData` (§3 explains the
+`TweenData`/`TweenHandle` split).
 
 ## 2. Chained config (Phase 2+)
 
@@ -34,6 +42,9 @@ LeafTween.to(position, target_position, 1.0, on_update) \
   `Curve` is editable visually in the inspector, without touching code.
 - Every setter returns `self` (the handle), per the roadmap's fluent-API
   decision.
+
+**Shipped as:** `.set_ease(LeafTweenEasing.EaseType.OUT_QUAD)` — the ease
+enum lives on `LeafTweenEasing`, not directly on `LeafTween`.
 
 ## 3. Handle shape
 
@@ -64,6 +75,16 @@ chain; static-side keeps all pool access behind one entry point. Both work
 fine with the generation check — worth picking before Phase 3 locks in the
 pool internals.
 
+**Shipped as — resolved differently than sketched here:** the fluent
+setters and the `{index, generation}` handle ended up on two separate
+classes instead of one. `TweenData` (returned by `to()`/`move()`/etc.) holds
+the fluent config setters (`set_ease()`, `set_delay()`, ...) plus a
+`get_handle() -> TweenHandle`. The plain `TweenHandle` — just `index` +
+`generation`, no methods — is what `LeafTween.cancel()`/`pause()`/`resume()`
+take, resolving the open question above in favor of the static-call side.
+Splitting them keeps the handle passable/storable without dragging the
+whole config-setter surface along with it.
+
 ## 4. Node-level static helpers (Phase 6)
 
 ```gdscript
@@ -76,6 +97,20 @@ LeafTween.modulate(canvas_item, target_color, duration)
 
 - Each is sugar for `.to()` that supplies the `on_update` Callable
   internally (e.g. `move` does `node.position = value`).
+
+**Shipped as:** `move()` and `modulate()` landed as sketched; `move_x()`,
+`scale()`, `rotate()` didn't ship, and `resize()`/`fade()` were added
+instead (not in this original sketch) — `resize()` because `Control` has no
+`Node2D` equivalent otherwise, `fade()` because animating just
+`modulate.a` (vs. the full `Color`) is common enough in UI work to earn its
+own call:
+
+```gdscript
+LeafTween.move(node: Node, target: Vector2, duration: float) -> TweenData
+LeafTween.resize(control: Control, target_size: Vector2, duration: float) -> TweenData
+LeafTween.fade(canvas_item: CanvasItem, target_alpha: float, duration: float) -> TweenData
+LeafTween.modulate(canvas_item: CanvasItem, target_color: Color, duration: float) -> TweenData
+```
 
 ## 5. Sequencing (Phase 5)
 
@@ -91,6 +126,12 @@ LeafTweenSequence.new() \
 - `append()` runs steps in series, `join()` runs a step in parallel with the
   previous one.
 
+**Shipped as:** matches the sketch (`rotate()` aside — use `fade()` or
+`to()` instead, per §4). `append()`/`join()` just offset each `TweenData`'s
+`delay` along a shared timeline — no separate runtime for the sequence
+itself, since the tweens are already live in the pool the moment
+`LeafTween.move()`/`to()` acquires them.
+
 ## 6. move_along (Phase 4)
 
 Unifies bezier and Catmull-Rom path following with easing, callbacks, and
@@ -101,6 +142,12 @@ LeafTween.move_along(node, path: BezierPath, duration)
 LeafTween.move_along(node, spline: CatmullRomSpline, duration) \
     .set_ease(LeafTween.EASE_IN_OUT_CUBIC)
 ```
+
+**Shipped as:** matches the sketch — `move_along(node: Node2D, path: Resource, duration: float) -> TweenData`,
+accepting either `LeafTweenBezierPath` or `LeafTweenCatmullRomSpline` via
+duck typing (`get_point(t)`), same ease enum caveat as §2.
+`demo/curves/curves.gd` also builds the manual `Curve2D` + `PathFollow2D` +
+`tween_method()` equivalent for direct comparison, per the Done Criteria.
 
 ## 7. stagger() (Phase 6)
 
@@ -115,6 +162,13 @@ LeafTween.stagger(
         return LeafTween.move(n, n.position + Vector2(0, -20), 0.3)
 )
 ```
+
+**Shipped as:** matches the sketch almost exactly —
+`stagger(nodes: Array, delay_between: float, tween_factory: Callable) -> Array[TweenData]`,
+factory returns `TweenData` (not `LeafTweenHandle`, per §3). Internally it's
+just `tween_factory.call(nodes[i])` then `tween_data.delay += i * delay_between`
+per node, so cancel-mid-stagger is "free" — canceling one entry via its own
+`TweenData.get_handle()` never touches the others.
 
 ## Open questions to settle before Phase 1
 

@@ -83,9 +83,9 @@ itself, to make the gap it fills concrete rather than asserted:
 - ~~**Deliverable:** `demo/curves/` scene following a spline track.~~
 
 ### Phase 5 — Sequencing
-- `LeafTweenSequence` with `.append()` (series) and `.join()` (parallel).
-- `.set_loop(n)` and `.set_ping_pong()`.
-- **Deliverable:** `demo/sequence/` — 3 tweens in series + 1 in parallel, looping twice, triggered by a button.
+- ~~`LeafTweenSequence` with `.append()` (series) and `.join()` (parallel).~~
+- ~~`.set_loop(n)` and `.set_ping_pong()`.~~
+- ~~**Deliverable:** `demo/sequence/` — 3 tweens in series + 1 in parallel, looping twice, triggered by a button.~~
 
 ### Phase 6 — Polish
 - Static helper methods for common node types (`Node2D`, `Control`, `CanvasItem` modulate).

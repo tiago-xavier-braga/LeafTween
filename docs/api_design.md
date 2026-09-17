@@ -140,7 +140,7 @@ sequencing behind one call:
 ```gdscript
 LeafTween.move_along(node, path: BezierPath, duration)
 LeafTween.move_along(node, spline: CatmullRomSpline, duration) \
-    .set_ease(LeafTween.EASE_IN_OUT_CUBIC)
+	.set_ease(LeafTween.EASE_IN_OUT_CUBIC)
 ```
 
 **Shipped as:** matches the sketch — `move_along(node: Node2D, path: Resource, duration: float) -> TweenData`,
@@ -156,10 +156,10 @@ of tween:
 
 ```gdscript
 LeafTween.stagger(
-    list_items,
-    0.05,
-    func(n: Node) -> LeafTweenHandle:
-        return LeafTween.move(n, n.position + Vector2(0, -20), 0.3)
+	list_items,
+	0.05,
+	func(n: Node) -> LeafTweenHandle:
+		return LeafTween.move(n, n.position + Vector2(0, -20), 0.3)
 )
 ```
 

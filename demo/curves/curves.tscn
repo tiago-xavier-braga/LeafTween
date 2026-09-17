@@ -3,12 +3,15 @@
 [ext_resource type="Script" path="res://demo/curves/curves.gd" id="1_curves"]
 [ext_resource type="Texture2D" uid="uid://cr2ugpgi87upt" path="res://icon.svg" id="2_icon"]
 
-[node name="Curves" type="Node2D" node_paths=PackedStringArray("bezier_marker", "spline_marker", "bezier_line", "spline_line")]
+[node name="Curves" type="Node2D" node_paths=PackedStringArray("bezier_marker", "spline_marker", "bezier_line", "spline_line", "native_line", "native_path", "native_follow")]
 script = ExtResource("1_curves")
 bezier_marker = NodePath("BezierTrack/BezierMarker")
 spline_marker = NodePath("SplineTrack/SplineMarker")
 bezier_line = NodePath("BezierTrack/BezierLine")
 spline_line = NodePath("SplineTrack/SplineLine")
+native_line = NodePath("NativeTrack/NativeLine")
+native_path = NodePath("NativeTrack/NativePath")
+native_follow = NodePath("NativeTrack/NativePath/NativeFollow")
 
 [node name="BezierTrack" type="Node2D" parent="."]
 position = Vector2(200, 300)
@@ -37,5 +40,25 @@ width = 4.0
 default_color = Color(0.9333333, 0.60784316, 0, 1)
 
 [node name="SplineMarker" type="Sprite2D" parent="SplineTrack"]
+texture = ExtResource("2_icon")
+scale = Vector2(0.3, 0.3)
+
+[node name="NativeTrack" type="Node2D" parent="."]
+position = Vector2(1000, 300)
+
+[node name="NativeLabel" type="Label" parent="NativeTrack"]
+position = Vector2(0, -60)
+text = "Native — Curve2D + PathFollow2D + tween_method()"
+
+[node name="NativeLine" type="Line2D" parent="NativeTrack"]
+width = 4.0
+default_color = Color(0.73333335, 0.24313726, 0.011764706, 1)
+
+[node name="NativePath" type="Path2D" parent="NativeTrack"]
+
+[node name="NativeFollow" type="PathFollow2D" parent="NativeTrack/NativePath"]
+rotates = false
+
+[node name="NativeMarker" type="Sprite2D" parent="NativeTrack/NativePath/NativeFollow"]
 texture = ExtResource("2_icon")
 scale = Vector2(0.3, 0.3)

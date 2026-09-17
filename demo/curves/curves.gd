@@ -23,6 +23,9 @@ const PATH_SAMPLE_COUNT: int = 32
 @export var spline_marker: Sprite2D
 @export var bezier_line: Line2D
 @export var spline_line: Line2D
+@export var native_line: Line2D
+@export var native_path: Path2D
+@export var native_follow: PathFollow2D
 
 func _ready() -> void:
 	var bezier_path: LeafTweenBezierPath = LeafTweenBezierPath.new()
@@ -36,9 +39,20 @@ func _ready() -> void:
 
 	_draw_path(bezier_line, bezier_path)
 	_draw_path(spline_line, spline)
+	_draw_path(native_line, bezier_path)
 
 	LeafTween.move_along(bezier_marker, bezier_path, duration).set_ease(LeafTweenEasing.EaseType.IN_OUT_QUAD)
 	LeafTween.move_along(spline_marker, spline, duration).set_ease(LeafTweenEasing.EaseType.IN_OUT_QUAD)
+
+	var native_curve: Curve2D = Curve2D.new()
+	native_curve.add_point(bezier_points[0], Vector2.ZERO, bezier_points[1] - bezier_points[0])
+	native_curve.add_point(bezier_points[3], bezier_points[2] - bezier_points[3], Vector2.ZERO)
+	native_path.curve = native_curve
+
+	var native_tween: Tween = create_tween()
+	native_tween.tween_property(native_follow, "progress_ratio", 1.0, duration) \
+		.set_trans(Tween.TRANS_QUAD) \
+		.set_ease(Tween.EASE_IN_OUT)
 
 func _draw_path(line: Line2D, path: Variant) -> void:
 	var points: PackedVector2Array = PackedVector2Array()

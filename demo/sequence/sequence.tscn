@@ -1,0 +1,82 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://demo/sequence/sequence.gd" id="1_sequence"]
+
+[node name="Sequence" type="Control" unique_id=2094817263 node_paths=PackedStringArray("play_button", "series_box_1", "series_box_2", "series_box_3", "parallel_box")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sequence")
+play_button = NodePath("PlayButton")
+series_box_1 = NodePath("SeriesBox1")
+series_box_2 = NodePath("SeriesBox2")
+series_box_3 = NodePath("SeriesBox3")
+parallel_box = NodePath("ParallelBox")
+
+[node name="Background" type="ColorRect" parent="." unique_id=2094817264]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.07058824, 0.09803922, 1)
+
+[node name="PlayButton" type="Button" parent="." unique_id=2094817265]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 60.0
+offset_right = 420.0
+offset_bottom = 120.0
+text = "Play Sequence (loop ×2)"
+
+[node name="SeriesLabel" type="Label" parent="." unique_id=2094817266]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 200.0
+offset_right = 900.0
+offset_bottom = 236.0
+text = "append() — 3 tweens in series"
+
+[node name="SeriesBox1" type="ColorRect" parent="." unique_id=2094817267]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 260.0
+offset_right = 180.0
+offset_bottom = 340.0
+color = Color(0.5803922, 0.8235294, 0.7411765, 1)
+
+[node name="SeriesBox2" type="ColorRect" parent="." unique_id=2094817268]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 380.0
+offset_right = 180.0
+offset_bottom = 460.0
+color = Color(0.9333333, 0.60784316, 0, 1)
+
+[node name="SeriesBox3" type="ColorRect" parent="." unique_id=2094817269]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 500.0
+offset_right = 180.0
+offset_bottom = 580.0
+color = Color(0.039215688, 0.5764706, 0.5882353, 1)
+
+[node name="ParallelLabel" type="Label" parent="." unique_id=2094817270]
+layout_mode = 1
+offset_left = 1300.0
+offset_top = 200.0
+offset_right = 1800.0
+offset_bottom = 236.0
+text = "join() — parallel with step 2"
+
+[node name="ParallelBox" type="ColorRect" parent="." unique_id=2094817271]
+layout_mode = 1
+offset_left = 1300.0
+offset_top = 760.0
+offset_right = 1380.0
+offset_bottom = 840.0
+color = Color(0.73333335, 0.24313726, 0.011764706, 1)

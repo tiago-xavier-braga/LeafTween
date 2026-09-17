@@ -24,11 +24,14 @@ func _process(delta: float) -> void:
 
 		tween_data.elapsed += delta
 
-		if tween_data.elapsed < tween_data.delay:
+		var cycle: Dictionary = _resolve_cycle_position(tween_data)
+		var position: float = cycle.position
+		var finished: bool = cycle.finished
+
+		if position < 0.0:
 			continue
-		
-		var t: float = (tween_data.elapsed - tween_data.delay) / tween_data.duration
-		t = clampf(t, 0.0, 1.0)
+
+		var t: float = clampf(position / tween_data.duration, 0.0, 1.0)
 		if tween_data.ease_curve:
 			t = tween_data.ease_curve.sample(t)
 		else:
@@ -43,7 +46,7 @@ func _process(delta: float) -> void:
 
 		tween_data.on_update.call(value)
 
-		if t >= 1.0:
+		if finished:
 			if tween_data.on_complete.is_valid():
 				tween_data.on_complete.call()
 
@@ -88,6 +91,25 @@ func _is_handle_valid(handle: TweenHandle) -> bool:
 	var tween_data: TweenData = _tweens[handle.index]
 	return tween_data.generation == handle.generation and tween_data.active
 
+func _resolve_cycle_position(tween_data: TweenData) -> Dictionary:
+	var cycle_duration: float = tween_data.loop_duration if tween_data.loop_duration > 0.0 else tween_data.delay + tween_data.duration
+	var infinite: bool = tween_data.loop_count < 0
+	var total_duration: float = INF if infinite else cycle_duration * tween_data.loop_count
+
+	var finished: bool = not infinite and tween_data.elapsed >= total_duration
+	var clamped_elapsed: float = tween_data.elapsed if infinite else minf(tween_data.elapsed, total_duration)
+
+	var iteration: int = (tween_data.loop_count - 1) if finished else int(clamped_elapsed / cycle_duration)
+	var position_in_cycle: float = cycle_duration if finished else clamped_elapsed - float(iteration) * cycle_duration
+
+	if tween_data.ping_pong and iteration % 2 == 1:
+		position_in_cycle = cycle_duration - position_in_cycle
+
+	return {
+		"position": position_in_cycle - tween_data.delay,
+		"finished": finished,
+	}
+
 func _acquire_tween_data() -> TweenData:
 	for i in range(_tweens.size()):
 		var tween_data: TweenData = _tweens[i]
@@ -111,6 +133,9 @@ func _release_tween(tween: TweenData) -> void:
 	tween.duration = 0.0
 	tween.elapsed = 0.0
 	tween.delay = 0.0
+	tween.loop_count = 1
+	tween.loop_duration = 0.0
+	tween.ping_pong = false
 	tween.ease_type = LeafTweenEasing.EaseType.LINEAR
 	tween.ease_curve = null
 	tween.on_update = Callable()

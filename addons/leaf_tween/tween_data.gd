@@ -16,6 +16,9 @@ var action: TweenAction = TweenAction.LERP
 var duration: float
 var elapsed: float = 0.0
 var delay: float = 0.0
+var loop_count: int = 1
+var loop_duration: float = 0.0
+var ping_pong: bool = false
 var ease_type: LeafTweenEasing.EaseType = LeafTweenEasing.EaseType.LINEAR
 var ease_curve: Curve = null
 var on_update: Callable = Callable()
@@ -31,6 +34,14 @@ func set_ease_curve(curve: Curve) -> TweenData:
 
 func set_delay(delay: float) -> TweenData:
 	self.delay = delay
+	return self
+
+func set_loop(count: int) -> TweenData:
+	self.loop_count = count
+	return self
+
+func set_ping_pong(enabled: bool = true) -> TweenData:
+	self.ping_pong = enabled
 	return self
 
 func set_on_update(callback: Callable) -> TweenData:

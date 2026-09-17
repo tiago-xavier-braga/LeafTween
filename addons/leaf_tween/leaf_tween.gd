@@ -1,5 +1,10 @@
+## Autoload singleton driving every active tween from a single pooled
+## update loop. Configure a tween through the [TweenData] a builder method
+## below returns, then let it run — no per-tween node, no manual [Tween] wiring.
 extends Node
 
+## Fixed pool size — the maximum number of tweens that can run at once.
+## Acquiring past this logs an error and returns [code]null[/code].
 const MAX_TWEENS: int = 1024
 
 var _tweens: Array[TweenData] = []
@@ -53,6 +58,10 @@ func _process(delta: float) -> void:
 			if on_complete.is_valid():
 				on_complete.call()
 
+## Animates any interpolatable [Variant] ([float], [Vector2], [Vector3],
+## [Color], ...) from [param from] to [param to] over [param duration]
+## seconds, calling [param on_update] with the current value each frame.
+## The generic primitive every other helper below is built on.
 func to(from: Variant, to: Variant, duration: float, on_update: Callable) -> TweenData:
 	var tween_data: TweenData = _acquire_tween_data()
 
@@ -62,6 +71,9 @@ func to(from: Variant, to: Variant, duration: float, on_update: Callable) -> Twe
 	tween_data.on_update = on_update
 	return tween_data
 
+## Moves [param node] along [param path] (a [LeafTweenBezierPath] or
+## [LeafTweenCatmullRomSpline], or any [Resource] exposing
+## [code]get_point(t: float) -> Vector2[/code]) over [param duration] seconds.
 func move_along(node: Node2D, path: Resource, duration: float) -> TweenData:
 	var tween_data: TweenData = _acquire_tween_data()
 
@@ -71,20 +83,36 @@ func move_along(node: Node2D, path: Resource, duration: float) -> TweenData:
 	tween_data.on_update = Callable(node, "set_position")
 	return tween_data
 
+## Animates [param node]'s [code]position[/code] to [param target] over
+## [param duration] seconds. Works for both [Node2D] and [Control].
 func move(node: Node, target: Vector2, duration: float) -> TweenData:
 	return to(node.position, target, duration, Callable(node, "set_position"))
 
+## Animates a [Control]'s [code]size[/code] to [param target_size] over
+## [param duration] seconds.
 func resize(control: Control, target_size: Vector2, duration: float) -> TweenData:
 	return to(control.size, target_size, duration, Callable(control, "set_size"))
 
+## Animates a [CanvasItem]'s [code]modulate[/code] alpha to
+## [param target_alpha] over [param duration] seconds, leaving its RGB
+## untouched.
 func fade(canvas_item: CanvasItem, target_alpha: float, duration: float) -> TweenData:
 	var start_color: Color = canvas_item.modulate
 	var target_color: Color = Color(start_color.r, start_color.g, start_color.b, target_alpha)
 	return to(start_color, target_color, duration, Callable(canvas_item, "set_modulate"))
 
+## Animates a [CanvasItem]'s full [code]modulate[/code] color to
+## [param target_color] over [param duration] seconds.
 func modulate(canvas_item: CanvasItem, target_color: Color, duration: float) -> TweenData:
 	return to(canvas_item.modulate, target_color, duration, Callable(canvas_item, "set_modulate"))
 
+## Calls [param tween_factory] once per entry in [param nodes], offsetting
+## each resulting [TweenData]'s delay by its index times
+## [param delay_between]. [param tween_factory] takes a node and returns any
+## tween built from it, e.g.
+## [code]func(n): return LeafTween.move(n, target, duration)[/code].
+## Cancelling mid-stagger works for free: cancel one entry's own handle
+## (from [method TweenData.get_handle]) without touching the rest.
 func stagger(nodes: Array, delay_between: float, tween_factory: Callable) -> Array[TweenData]:
 	var tweens: Array[TweenData] = []
 	for i in range(nodes.size()):
@@ -93,16 +121,21 @@ func stagger(nodes: Array, delay_between: float, tween_factory: Callable) -> Arr
 		tweens.append(tween_data)
 	return tweens
 
+## Stops the tween [param handle] refers to and frees its pool slot. A stale
+## or already-inactive handle is silently ignored.
 func cancel(handle: TweenHandle) -> void:
 	if _is_handle_valid(handle):
 		var tween_data: TweenData = _tweens[handle.index]
 		_release_tween(tween_data)
 
+## Freezes the tween [param handle] refers to in place; its elapsed time
+## stops advancing until [method resume] is called.
 func pause(handle: TweenHandle) -> void:
 	if _is_handle_valid(handle):
 		var tween_data: TweenData = _tweens[handle.index]
 		tween_data.paused = true
 
+## Unfreezes a tween previously stopped with [method pause].
 func resume(handle: TweenHandle) -> void:
 	if _is_handle_valid(handle):
 		var tween_data: TweenData = _tweens[handle.index]

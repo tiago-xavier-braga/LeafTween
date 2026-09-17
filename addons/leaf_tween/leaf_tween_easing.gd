@@ -1,5 +1,8 @@
 class_name LeafTweenEasing extends RefCounted
 
+## Easing curves from [url=https://easings.net]easings.net[/url] — each
+## comes in [code]IN_*[/code]/[code]OUT_*[/code]/[code]IN_OUT_*[/code]
+## variants. Pass to [method TweenData.set_ease].
 enum EaseType {
 	LINEAR,
 	IN_SINE,
@@ -176,6 +179,10 @@ static func ease_in_out_bounce(t: float) -> float:
 		return (1.0 - ease_out_bounce(1.0 - 2.0 * t)) / 2.0
 	return (1.0 + ease_out_bounce(2.0 * t - 1.0)) / 2.0
 
+## Applies [param easing_type] to a linear [param t] in [code][0, 1][/code],
+## returning the eased value. Used internally by [LeafTween]'s update loop
+## for tweens configured with [method TweenData.set_ease]; most callers
+## won't need to call this directly.
 static func apply(easing_type: EaseType, t: float) -> float:
 	match easing_type:
 		EaseType.LINEAR:

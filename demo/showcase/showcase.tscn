@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://demo/showcase/showcase.gd" id="1_showcase"]
+
+[node name="Showcase" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_showcase")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.07058824, 0.09803922, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+offset_left = 0.0
+offset_top = 120.0
+offset_right = 1920.0
+offset_bottom = 220.0
+theme_override_font_sizes/font_size = 96
+theme_override_colors/font_color = Color(0.5803922, 0.8235294, 0.7411765, 1)
+horizontal_alignment = 1
+text = "LeafTween"

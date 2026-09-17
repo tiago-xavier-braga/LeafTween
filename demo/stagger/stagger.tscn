@@ -1,0 +1,145 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://demo/stagger/stagger.gd" id="1_stagger"]
+
+[node name="Stagger" type="Control" unique_id=3094817263 node_paths=PackedStringArray("play_button", "cancel_button", "leaf_tween_box_1", "leaf_tween_box_2", "leaf_tween_box_3", "leaf_tween_box_4", "leaf_tween_box_5", "native_box_1", "native_box_2", "native_box_3", "native_box_4", "native_box_5")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_stagger")
+play_button = NodePath("PlayButton")
+cancel_button = NodePath("CancelButton")
+leaf_tween_box_1 = NodePath("LeafTweenBox1")
+leaf_tween_box_2 = NodePath("LeafTweenBox2")
+leaf_tween_box_3 = NodePath("LeafTweenBox3")
+leaf_tween_box_4 = NodePath("LeafTweenBox4")
+leaf_tween_box_5 = NodePath("LeafTweenBox5")
+native_box_1 = NodePath("NativeBox1")
+native_box_2 = NodePath("NativeBox2")
+native_box_3 = NodePath("NativeBox3")
+native_box_4 = NodePath("NativeBox4")
+native_box_5 = NodePath("NativeBox5")
+
+[node name="Background" type="ColorRect" parent="." unique_id=3094817264]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.07058824, 0.09803922, 1)
+
+[node name="PlayButton" type="Button" parent="." unique_id=3094817265]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 60.0
+offset_right = 300.0
+offset_bottom = 110.0
+text = "Play"
+
+[node name="CancelButton" type="Button" parent="." unique_id=3094817266]
+layout_mode = 1
+offset_left = 320.0
+offset_top = 60.0
+offset_right = 580.0
+offset_bottom = 110.0
+text = "Cancel (mid-stagger)"
+
+[node name="LeafTweenLabel" type="Label" parent="." unique_id=3094817267]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 200.0
+offset_right = 900.0
+offset_bottom = 236.0
+text = "LeafTween.stagger()"
+
+[node name="LeafTweenBox1" type="ColorRect" parent="." unique_id=3094817268]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 260.0
+offset_right = 180.0
+offset_bottom = 340.0
+color = Color(0.5803922, 0.8235294, 0.7411765, 1)
+
+[node name="LeafTweenBox2" type="ColorRect" parent="." unique_id=3094817269]
+layout_mode = 1
+offset_left = 220.0
+offset_top = 260.0
+offset_right = 300.0
+offset_bottom = 340.0
+color = Color(0.5803922, 0.8235294, 0.7411765, 1)
+
+[node name="LeafTweenBox3" type="ColorRect" parent="." unique_id=3094817270]
+layout_mode = 1
+offset_left = 340.0
+offset_top = 260.0
+offset_right = 420.0
+offset_bottom = 340.0
+color = Color(0.5803922, 0.8235294, 0.7411765, 1)
+
+[node name="LeafTweenBox4" type="ColorRect" parent="." unique_id=3094817271]
+layout_mode = 1
+offset_left = 460.0
+offset_top = 260.0
+offset_right = 540.0
+offset_bottom = 340.0
+color = Color(0.5803922, 0.8235294, 0.7411765, 1)
+
+[node name="LeafTweenBox5" type="ColorRect" parent="." unique_id=3094817272]
+layout_mode = 1
+offset_left = 580.0
+offset_top = 260.0
+offset_right = 660.0
+offset_bottom = 340.0
+color = Color(0.5803922, 0.8235294, 0.7411765, 1)
+
+[node name="NativeLabel" type="Label" parent="." unique_id=3094817273]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 460.0
+offset_right = 900.0
+offset_bottom = 496.0
+text = "Manual — native Tween + set_delay(i × delay)"
+
+[node name="NativeBox1" type="ColorRect" parent="." unique_id=3094817274]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 520.0
+offset_right = 180.0
+offset_bottom = 600.0
+color = Color(0.9333333, 0.60784316, 0, 1)
+
+[node name="NativeBox2" type="ColorRect" parent="." unique_id=3094817275]
+layout_mode = 1
+offset_left = 220.0
+offset_top = 520.0
+offset_right = 300.0
+offset_bottom = 600.0
+color = Color(0.9333333, 0.60784316, 0, 1)
+
+[node name="NativeBox3" type="ColorRect" parent="." unique_id=3094817276]
+layout_mode = 1
+offset_left = 340.0
+offset_top = 520.0
+offset_right = 420.0
+offset_bottom = 600.0
+color = Color(0.9333333, 0.60784316, 0, 1)
+
+[node name="NativeBox4" type="ColorRect" parent="." unique_id=3094817277]
+layout_mode = 1
+offset_left = 460.0
+offset_top = 520.0
+offset_right = 540.0
+offset_bottom = 600.0
+color = Color(0.9333333, 0.60784316, 0, 1)
+
+[node name="NativeBox5" type="ColorRect" parent="." unique_id=3094817278]
+layout_mode = 1
+offset_left = 580.0
+offset_top = 520.0
+offset_right = 660.0
+offset_bottom = 600.0
+color = Color(0.9333333, 0.60784316, 0, 1)

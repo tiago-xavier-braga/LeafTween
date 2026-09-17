@@ -47,10 +47,11 @@ func _process(delta: float) -> void:
 		tween_data.on_update.call(value)
 
 		if finished:
-			if tween_data.on_complete.is_valid():
-				tween_data.on_complete.call()
-
+			var on_complete: Callable = tween_data.on_complete
 			_release_tween(tween_data)
+
+			if on_complete.is_valid():
+				on_complete.call()
 
 func to(from: Variant, to: Variant, duration: float, on_update: Callable) -> TweenData:
 	var tween_data: TweenData = _acquire_tween_data()

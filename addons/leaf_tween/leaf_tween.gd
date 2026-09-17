@@ -70,6 +70,28 @@ func move_along(node: Node2D, path: Resource, duration: float) -> TweenData:
 	tween_data.on_update = Callable(node, "set_position")
 	return tween_data
 
+func move(node: Node, target: Vector2, duration: float) -> TweenData:
+	return to(node.position, target, duration, Callable(node, "set_position"))
+
+func resize(control: Control, target_size: Vector2, duration: float) -> TweenData:
+	return to(control.size, target_size, duration, Callable(control, "set_size"))
+
+func fade(canvas_item: CanvasItem, target_alpha: float, duration: float) -> TweenData:
+	var start_color: Color = canvas_item.modulate
+	var target_color: Color = Color(start_color.r, start_color.g, start_color.b, target_alpha)
+	return to(start_color, target_color, duration, Callable(canvas_item, "set_modulate"))
+
+func modulate(canvas_item: CanvasItem, target_color: Color, duration: float) -> TweenData:
+	return to(canvas_item.modulate, target_color, duration, Callable(canvas_item, "set_modulate"))
+
+func stagger(nodes: Array, delay_between: float, tween_factory: Callable) -> Array[TweenData]:
+	var tweens: Array[TweenData] = []
+	for i in range(nodes.size()):
+		var tween_data: TweenData = tween_factory.call(nodes[i])
+		tween_data.delay += float(i) * delay_between
+		tweens.append(tween_data)
+	return tweens
+
 func cancel(handle: TweenHandle) -> void:
 	if _is_handle_valid(handle):
 		var tween_data: TweenData = _tweens[handle.index]

@@ -1,6 +1,6 @@
 extends Node
 
-const TWEEN_COUNT: int = 800
+const TWEEN_COUNT: int = 1024
 const TWEEN_DURATION: float = 0.4
 const SAMPLE_INTERVAL_SEC: float = 0.1
 const TOTAL_SAMPLES: int = 50

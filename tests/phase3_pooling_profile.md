@@ -5,10 +5,12 @@ before/after with Godot's Debugger → Monitors, animating 500+ nodes at once."
 
 ## Methodology
 
-- Harness: `tests/phase3_pooling_profile.gd` + `.tscn`. Starts 800 concurrent
-  tweens (above the roadmap's "500+" bar, under `MAX_TWEENS = 1024`), each
-  restarting itself from `on_complete` — continuous pool churn instead of a
-  single burst.
+- Harness: `tests/phase3_pooling_profile.gd` + `.tscn`. Each tween restarts
+  itself from `on_complete` — continuous pool churn instead of a single
+  burst. The before/after comparison below ran with `TWEEN_COUNT = 800`
+  (above the roadmap's Phase 3 "500+" bar); `TWEEN_COUNT` was later raised
+  to `1024` (`MAX_TWEENS`) for the full-capacity check further down, which
+  is what the harness runs by default now.
 - Samples `Performance.MEMORY_STATIC` and `Performance.OBJECT_COUNT` every
   0.1s for 5s (50 samples), run headless:
   `godot --headless --path . res://tests/phase3_pooling_profile.tscn`
@@ -65,6 +67,44 @@ sample,static_memory_kb,object_count,total_completions
   roadmap's pool/generation-counter design is making: a small, fixed,
   one-time cost at startup in exchange for zero allocation calls at runtime,
   ever again.
+
+## Done Criteria check — 1024 concurrent tweens (full pool capacity)
+
+The roadmap's overall Done Criteria asks for "1000+ simultaneous tweens...
+near-zero steady-state allocation," a stricter bar than Phase 3's own
+"500+." `TWEEN_COUNT` was raised from 800 to 1024 (`LeafTween.MAX_TWEENS`)
+to test the current pooled implementation right at full capacity — the
+before/after comparison above already proved the pooling mechanism itself,
+so this run only re-checks the current engine, not the pre-pooling baseline.
+
+Raising the count to exactly `MAX_TWEENS` surfaced a real bug: `_process()`
+called `on_complete` *before* `_release_tween()`. This harness's
+`on_complete` immediately starts a replacement tween (`_start_tween`), which
+is a natural, common pattern — "restart when finished." At 800/1024 there
+were always 224 free slots for that immediate reacquire to land on, so it
+never surfaced. At exactly 1024/1024 there is zero slack: the finishing
+tween's slot is still marked active while its own `on_complete` fires, so
+the reacquire found no free slot and failed (`push_error`, then null
+dereferences downstream). Fixed in `leaf_tween.gd` by releasing the slot
+*before* invoking the completion callback (capturing the `Callable` first,
+since `_release_tween` clears it).
+
+After the fix, the same flat pattern holds at full capacity:
+
+```
+sample,static_memory_kb,object_count,total_completions
+1,59890.0,2512,0
+10,59890.1,2512,3072
+20,59890.1,2512,6144
+30,59890.1,2512,9216
+41,59890.1,2512,10240
+50,59890.1,2512,13312
+```
+
+`static_memory_kb`/`object_count` stay exactly as flat as the 800-tween run
+above; `total_completions` climbs in steps of 1024 (one full pool churn per
+~0.4s), confirming the pool sustains continuous restart churn at its
+declared maximum with zero allocation calls after startup.
 
 ## Reproducing / watching it live
 

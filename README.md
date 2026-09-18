@@ -1,5 +1,7 @@
 # LeafTween
 
+![LeafTween showcase: a staggered equalizer-style wave of tweened bars, looping with in-out-sine easing](docs/media/showcase.gif)
+
 A tweening package for the Godot Engine, built from scratch to animate values
 over time with easing, sequencing, and curved motion.
 
@@ -9,15 +11,12 @@ over time with easing, sequencing, and curved motion.
 
 ## Demo
 
-![Phase 2 demo: custom easing and Curve-driven tweens compared side by side against Godot's native Tween](docs/media/phase2.gif)
+Each value-add feature has its own comparison demo, next to the
+native/manual equivalent it replaces:
 
-Custom `ease_out_bounce` and a `Curve`-driven ease (`.set_ease_curve()`), each
-compared against its native `Tween`/manual-workaround equivalent. See
-`demo/easing/`.
-
-Every other value-add feature has its own comparison demo too, each next to
-the native/manual equivalent it replaces:
-
+- `demo/easing/` — custom `ease_out_bounce` and a `Curve`-driven ease
+  (`.set_ease_curve()`), each compared against its native
+  `Tween`/manual-workaround equivalent.
 - `demo/curves/` — `move_along()` (Bezier + Catmull-Rom) next to a manual
   `Curve2D` + `PathFollow2D` + `tween_method()` setup.
 - `demo/sequence/` — `LeafTweenSequence` running 3 tweens in series plus 1 in

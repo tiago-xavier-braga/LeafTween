@@ -90,6 +90,10 @@ LeafTween.resume(handle)
 LeafTween.cancel(handle)
 ```
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
+
 ## License
 
 [MIT](LICENSE)

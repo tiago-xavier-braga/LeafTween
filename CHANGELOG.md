@@ -11,6 +11,8 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Editor plugin (`plugin.cfg` + `plugin.gd`) that registers the `LeafTween`
+  autoload when enabled and removes it when disabled.
 - Autoload engine (`LeafTween`) driving pooled `TweenData` slots from a
   single `_process(delta)`, with generation-validated `TweenHandle`s for
   `cancel()`/`pause()`/`resume()`.

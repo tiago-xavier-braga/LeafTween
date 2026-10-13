@@ -49,9 +49,8 @@ and generation-counter architecture behind the engine, and
 ## Installation
 
 1. Copy `addons/leaf_tween/` into your project's `addons/` folder.
-2. In Godot, go to **Project → Project Settings → Autoload**.
-3. Add `addons/leaf_tween/leaf_tween.gd`, set the node name to `LeafTween`,
-   and enable it.
+2. In Godot, go to **Project → Project Settings → Plugins** and enable
+   **LeafTween**. This registers the `LeafTween` autoload for you.
 
 `LeafTween` is now available as a global singleton from any script.
 
